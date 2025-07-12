@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalkulator Hampiran Turunan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔢 Kalkulator Hampiran Turunan</h1>
+        <form id="calcForm">
+            <label for="fungsi">Fungsi f(x):</label>
+            <input type="text" id="fungsi" placeholder="misal: x**2 + 3*x" required>
+
+            <label for="x0">Titik x₀:</label>
+            <input type="number" id="x0" step="any" required>
+
+            <label for="h">Nilai h:</label>
+            <input type="number" id="h" step="any" required>
+
+            <label for="n">Turunan ke-n:</label>
+            <select id="n">
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+
+            <label for="ordo">Orde Akurasi:</label>
+            <select id="ordo">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+
+            <label for="metode">Metode:</label>
+            <select id="metode">
+                <option value="mundur">Selisih Mundur</option>
+                <option value="pusat">Selisih Pusat</option>
+            </select>
+
+            <button type="submit">Hitung</button>
+        </form>
+
+        <div id="output" class="output"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@11.5.0/lib/browser/math.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
