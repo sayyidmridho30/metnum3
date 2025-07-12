@@ -7,6 +7,27 @@
 </head>
 <body>
     <div class="container">
+        <!-- FORM TABEL OTOMATIS -->
+        <h1>📊 Tabel Nilai x dan f(x)</h1>
+        <form id="formTabel">
+            <label for="fx">Fungsi f(x):</label>
+            <input type="text" id="fx" placeholder="misal: x**2 + 3*x" required>
+
+            <label for="xStart">Nilai x awal:</label>
+            <input type="number" id="xStart" step="any" required>
+
+            <label for="hTabel">Nilai h (jarak antar x):</label>
+            <input type="number" id="hTabel" step="any" placeholder="misal: 0.1" required>
+
+            <label for="jumlahBaris">Jumlah Baris:</label>
+            <input type="number" id="jumlahBaris" min="1" value="5" required>
+        </form>
+
+        <div id="tabelHasil"></div>
+
+        <hr>
+
+        <!-- FORM KALKULATOR HAMPIRAN -->
         <h1>🔢 Kalkulator Hampiran Turunan</h1>
         <form id="calcForm">
             <label for="fungsi">Fungsi f(x):</label>
@@ -43,7 +64,60 @@
 
         <div id="output" class="output"></div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/mathjs@11.5.0/lib/browser/math.js"></script>
+    <script>
+        const fxInput = document.getElementById('fx');
+        const xStartInput = document.getElementById('xStart');
+        const hTabelInput = document.getElementById('hTabel');
+        const jumlahBarisInput = document.getElementById('jumlahBaris');
+        const tabelHasilDiv = document.getElementById('tabelHasil');
+
+        [fxInput, xStartInput, hTabelInput, jumlahBarisInput].forEach(input => {
+            input.addEventListener('input', updateTabel);
+        });
+
+        function updateTabel() {
+            const expr = fxInput.value;
+            const xStart = parseFloat(xStartInput.value);
+            const h = parseFloat(hTabelInput.value);
+            const rows = parseInt(jumlahBarisInput.value);
+
+            if (!expr || isNaN(xStart) || isNaN(h) || isNaN(rows) || rows <= 0) {
+                tabelHasilDiv.innerHTML = '';
+                return;
+            }
+
+            let html = `
+                <table border="1" cellpadding="5">
+                    <tr>
+                        <th>Baris</th>
+                        <th>x</th>
+                        <th>f(x)</th>
+                    </tr>`;
+
+            for (let i = 0; i < rows; i++) {
+                const x = xStart + i * h;
+                let fx;
+                try {
+                    fx = math.evaluate(expr, { x: x });
+                } catch (err) {
+                    fx = 'Error';
+                }
+
+                html += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${x.toFixed(6)}</td>
+                        <td>${fx}</td>
+                    </tr>`;
+            }
+
+            html += '</table>';
+            tabelHasilDiv.innerHTML = html;
+        }
+    </script>
+
     <script src="script.js"></script>
 </body>
 </html>
